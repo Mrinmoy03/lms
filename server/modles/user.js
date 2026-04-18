@@ -1,22 +1,21 @@
 import mongoose from "mongoose";
 
-
 const userSchema = new mongoose.Schema(
     {
         _id: {
-            type: string,
+            type: String,
             required : true
         },
         name: {
-            type: string,
+            type: String,
             required : true
         },
         email: {
-            type: string,
+            type: String,
             required : true
         },
-        imageurl: {
-            type: string,
+        imageUrl: {
+            type: String,
             required : true
         },
         enrolledCourses:[
@@ -26,10 +25,8 @@ const userSchema = new mongoose.Schema(
             }
         ]
 
-
     }, {timestamps:true}
 )
 
-
-const user = mongoose.model('user', userSchema);
+const User = mongoose.model('user', userSchema);
 export default User
