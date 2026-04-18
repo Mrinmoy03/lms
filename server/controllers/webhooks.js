@@ -6,8 +6,9 @@ import User from "../modles/user";
 export const clerkWebhooks = async (req, res)=>{
  try{
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
-    console.log("Clerk webhook event:", req.body.type);
-    await whook.verify(JSON.stringify(req.body),{
+    const rawBody = req.rawBody || JSON.stringify(req.body)
+    console.log("Clerk webhook event:", req.body?.type)
+    await whook.verify(rawBody, {
         "svix-id" : req.headers["svix-id"],
         "svix-timestamp": req.headers["svix-timestamp"],
         "svix-signature" : req.headers["svix-signature"]
@@ -45,8 +46,8 @@ export const clerkWebhooks = async (req, res)=>{
         break;
         
     }
- }catch(error){
-    res.json ({success: false, message : error.message })
-
+ } catch(error) {
+    console.error('Webhook error:', error)
+    res.status(400).json({ success: false, message: error.message })
  }
 }
